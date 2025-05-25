@@ -16,6 +16,8 @@ public class RabbitMqProducer {
     @Value("${spring.rabbitmq.binding}")
     private String routingKey;
 
+
+
     public RabbitMqProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
@@ -25,6 +27,10 @@ public class RabbitMqProducer {
     }
 
     public void sendProductMessage(Product product) {
+        rabbitTemplate.convertAndSend(exchange, routingKey, product);
+    }
+
+    public void sendToTopicExchange(String exchange, String routingKey, Product product) {
         rabbitTemplate.convertAndSend(exchange, routingKey, product);
     }
 }
